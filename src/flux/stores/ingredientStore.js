@@ -12,8 +12,19 @@ class IngredientStore extends Marty.Store {
     this.handlers = {
       addGroups: IngredientConstants.RECEIVE_GROUPS,
       addIngredientsForGroup: IngredientConstants.RECEIVE_INGREDIENTS_IN_GROUP,
-      clearGroups: [IngredientConstants.GROUP_CREATED, IngredientConstants.GROUP_UPDATED]
+      clearGroups: [IngredientConstants.GROUP_CREATED, IngredientConstants.GROUP_UPDATED, IngredientConstants.GROUP_DELETED],
+      clearIngredients: [IngredientConstants.INGREDIENT_CREATED, IngredientConstants.INGREDIENT_UPDATED, IngredientConstants.INGREDIENT_DELETED]
     };
+  }
+
+  clearIngredients(group) {
+    if(group!=null) {
+      this.state.ingredients[group.id] = undefined;
+      this.hasChanged();
+    } else {
+      this.state.ingredients = {};
+      this.hasChanged();
+    }
   }
 
   clearGroups() {

@@ -40,28 +40,33 @@ class MenuList extends React.Component {
               </span>
 
             }>
-            { this.renderNoMenuWarning(menusGrouped[day.format("YYYY-MM-DD")]) }
-            <ListGroup>
-            { _.map(menusGrouped[day.format("YYYY-MM-DD")] || [], (menu) => (
-            <ListGroupItem key={menu.id}>
-              <Grid className="autowidth">
-                <Col xs={1}>
-                  <span className="menu-number"><Badge>{menu.number}</Badge></span>
-                </Col>
-                <Col xs={10}>
-                  <Menu key={menu.id} menu={menu}/>
-                </Col>
-                <Col xs={1} className="stick-right">
-                  <Button onClick={this.editMenuClicked(menu).bind(this)}><Icon name="pencil"/></Button>
-                  <Button onClick={this.deleteMenu(menu).bind(this)} bsStyle="danger"><Icon name="trash"/></Button>
-                </Col>
-              </Grid>
-            </ListGroupItem>
-            ))}
-          </ListGroup>
+            { this.renderPanelContent(menusGrouped[day.format("YYYY-MM-DD")]) }
           </Panel>
         ))}
       </div>
+    );
+  }
+
+  renderPanelContent(menus) {
+    return this.renderNoMenuWarning(menus) || (
+      <ListGroup fill>
+      { _.map(menus || [], (menu) => (
+      <ListGroupItem key={menu.id}>
+        <Grid className="autowidth">
+          <Col xs={1}>
+            <span className="menu-number"><Badge>{menu.number}</Badge></span>
+          </Col>
+          <Col xs={10}>
+            <Menu key={menu.id} menu={menu}/>
+          </Col>
+          <Col xs={1} className="stick-right">
+            <Button onClick={this.editMenuClicked(menu).bind(this)}><Icon name="pencil"/></Button>
+            <Button onClick={this.deleteMenu(menu).bind(this)} bsStyle="danger"><Icon name="trash"/></Button>
+          </Col>
+        </Grid>
+      </ListGroupItem>
+      ))}
+    </ListGroup>
     );
   }
 

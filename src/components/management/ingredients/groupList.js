@@ -13,12 +13,19 @@ class GroupList extends React.Component {
   render() {
     return (
       <div>
+        { this.generateNoGroupsWarning() }
         { _.map(_.sortBy(this.props.groups, "name"), (group) => (
           <Group group={group}/>
         )) }
       </div>
     );
-  };
+  }
+
+  generateNoGroupsWarning() {
+    if(this.props.groups==null || this.props.groups.length == 0) {
+      return (<span className="text-muted">no groups exist yet</span>);
+    }
+  }
 
 }
 

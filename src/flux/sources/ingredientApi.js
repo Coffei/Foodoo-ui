@@ -37,6 +37,42 @@ class IngredientApi extends Marty.HttpStateSource {
       throw res;
     });
   }
+
+  deleteGroup(group) {
+    return this.delete({url: Settings.backendPath + `/groups/${group.id}`})
+    .then((res) => {
+      if(res.ok) return "ok";
+
+      throw res;
+    });
+  }
+
+  createIngredient(ingredient) {
+    return this.post({url: Settings.backendPath + `/groups/${ingredient.group.id}/ingredients`, body: ingredient})
+    .then((res) => {
+      if(res.ok) return "ok";
+
+      throw res;
+    });
+  }
+
+  updateIngredient(ingredient) {
+    return this.put({url: Settings.backendPath + `/ingredients/${ingredient.id}`, body: ingredient})
+    .then((res)=> {
+      if(res.ok) return "ok";
+
+      throw res;
+    });
+  }
+
+  deleteIngredient(ingredient) {
+    return this.delete({url: Settings.backendPath + `/ingredients/${ingredient.id}`})
+    .then((res) => {
+      if(res.ok) return "ok";
+
+      throw res;
+    });
+  }
 }
 
 module.exports = IngredientApi;

@@ -59,9 +59,9 @@ class GroupModal extends React.Component {
 
   getTitle() {
     if(this.state.group.id!=null) {
-      return "Create group";
+      return "Edit group";
     } else {
-      return "Edit group"
+      return "Create group"
     }
   }
 
