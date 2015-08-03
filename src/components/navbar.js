@@ -10,7 +10,7 @@ class NavbarComponent extends React.Component {
     return (
       <Navbar brand="Foodoo" >
         <Nav>
-          <NavItem href="#">Menus</NavItem>
+          <NavItem href="#/menu">Menus</NavItem>
           <NavItem href="#">Salads</NavItem>
           <NavItem href="#/management">Management</NavItem>
         </Nav>

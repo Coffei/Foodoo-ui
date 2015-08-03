@@ -18,9 +18,12 @@ var MenuManagement = require("./management/menu/menuManagement");
 var IngredientManagement = require("./management/ingredients/ingredientManagement");
 var EmptyManagement = require("./management/emptyManagement");
 
+var MenuHome = require("./menu/menuHome");
+
 routes = (
   <Route path="/" handler={RootComponent}>
     <DefaultRoute handler={Home}/>
+    <Route path="menu" handler={MenuHome}/>
     <Route path="management" handler={Management}>
       <DefaultRoute handler={EmptyManagement}/>
       <Route path="menu" handler={MenuManagement}/>
