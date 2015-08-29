@@ -22,7 +22,7 @@ class Group extends React.Component {
       <span>
         <GroupModal ref="groupModal" onSave={this.updateGroup.bind(this)}/>
         <IngredientModal ref="ingredientModal" onSave={this.createIngredient.bind(this)} onSave={this.createIngredient.bind(this)} />
-        <Panel bsStyle="success" className="with-buttons" header={
+        <Panel bsStyle={this.getPanelStyle()} className="with-buttons" header={
             <span>
               <span className="pull-right">
                 <Button onClick={this.editGroup.bind(this)}><Icon name="pencil"/></Button>
@@ -52,6 +52,13 @@ class Group extends React.Component {
       </ListGroup>
     );
   }
+
+  getPanelStyle() {
+    if(this.props.group.required) return "primary";
+
+    return "success";
+  }
+
 
   createIngredientClicked() {
     var ingredient = {

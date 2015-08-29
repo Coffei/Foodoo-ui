@@ -7,6 +7,7 @@ var RB = require("react-bootstrap");
 var Alert = RB.Alert;
 var ListGroup = RB.ListGroup;
 var ListItem = RB.ListGroupItem;
+var Button = RB.Button;
 
 var Menu = require("./menu.js");
 
@@ -26,7 +27,7 @@ class MenuList extends React.Component {
             <ListGroup>
               { _.map((menusGrouped[day.format("YYYY-MM-DD")] || []), (menu) => (
                 <ListItem>
-                  <Menu menu={menu} />
+                  <Menu menu={menu} date={day} />
                 </ListItem>
               )) }
             </ListGroup>

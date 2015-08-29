@@ -19,7 +19,8 @@ class Management extends React.Component {
             <ButtonGroup vertical>
               <Button href="#/management/menu">Menus</Button>
               <Button href="#/management/ingredients">Ingredients</Button>
-              <Button>Users</Button>
+              <Button href="#/management/hours">Business Hours</Button>
+              <Button href="#/management/constants">Price Constants</Button>
             </ButtonGroup>
           </Col>
           <Col xs={12} md={10}>

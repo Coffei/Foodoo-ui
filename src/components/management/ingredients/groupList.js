@@ -11,10 +11,12 @@ var Group = require("./group");
 
 class GroupList extends React.Component {
   render() {
+    var groups = _.sortByOrder(this.props.groups, ["required", "name"], ["desc","asc"]);
+
     return (
       <div>
         { this.generateNoGroupsWarning() }
-        { _.map(_.sortBy(this.props.groups, "name"), (group) => (
+        { _.map(groups, (group) => (
           <Group group={group}/>
         )) }
       </div>

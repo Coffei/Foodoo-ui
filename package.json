@@ -27,7 +27,9 @@
     "less": "~2.5.1",
     "marty": "~0.10.4",
     "react-router": "~0.13.3",
-    "toastr": "~2.1.0"
+    "toastr": "~2.1.0",
+    "moment-timezone": "~0.4.0",
+    "react-widgets": "~2.8.0"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~0.6.0",
