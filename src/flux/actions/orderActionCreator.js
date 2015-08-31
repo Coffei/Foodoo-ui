@@ -24,7 +24,7 @@ class OrderActionCreator extends Marty.ActionCreators {
     this.dispatch(Constants.ADD_MENU, menu);
   }
 
-  cancelOrder() {
+  cancelCurrentOrder() {
     this.dispatch(Constants.CANCEL_ORDER);
   }
 

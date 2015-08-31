@@ -173,7 +173,7 @@ class OrderHome extends React.Component {
 
   cancelOrder() {
     if(confirm("Are you sure you want to cancel the current order?")) {
-      this.app.orderActionCreator.cancelOrder();
+      this.app.orderActionCreator.cancelCurrentOrder();
       Toastr.info("Order cancelled!");
     }
   }
