@@ -18,7 +18,7 @@ class MenuModal extends React.Component {
   }
 
   render() {
-    var dateString = this.state.menu.date != null ? moment(this.state.menu.date).format("Do MMMM YYYY") : "";
+    var dateString = this.state.menu.date != null ? moment(this.state.menu.date, "YYYY-MM-DD").format("Do MMMM YYYY") : "";
     return (
       <span>
         <Modal show={this.state.shown} ref="modal" key="modal" bsSize="large" onHide={this.hide.bind(this)}>

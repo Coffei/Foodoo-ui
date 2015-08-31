@@ -74,7 +74,7 @@ class MenuList extends React.Component {
   newMenuClicked(date, menus) {
     return () => {
       var maxNumber = _.max([_.max(_.map(menus, "number")), 0]);
-      menu = {date: date.clone(), number: maxNumber + 1};
+      menu = {date: date.format("YYYY-MM-DD"), number: maxNumber + 1};
       this.refs.menuModal.open(menu);
     }
   }
