@@ -1,5 +1,6 @@
 var React = require("react");
 var RouteHandler = require("react-router").RouteHandler;
+var Marty = require("marty");
 
 // Bootstraps
 var RB = require("react-bootstrap");
@@ -11,6 +12,12 @@ var Panel = RB.Panel;
 
 
 class Management extends React.Component {
+  componentWillMount() {
+    if(this.props.authUser.type !== "admin") {
+      window.location.hash = "#/login";
+    }
+  }
+
   render() {
     return (
       <Panel header={<span>Management</span>}>
@@ -32,4 +39,11 @@ class Management extends React.Component {
   }
 }
 
-module.exports = Management;
+module.exports = Marty.createContainer(Management, {
+  listenTo: "authUserStore",
+  fetch: {
+    authUser: function() {
+      return this.app.authUserStore.getAuthUser();
+    }
+  }
+});

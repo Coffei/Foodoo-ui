@@ -28,9 +28,15 @@ var FinishOrder = require("./order/finishOrder");
 var Order = require("./order/order");
 var KitchenHome = require("./order/kitchen/home");
 
+//TODO
+var Login = require("./auth/login");
+
 routes = (
   <Route path="/" handler={RootComponent}>
     <DefaultRoute handler={Home}/>
+
+    <Route path="login" handler={Login}/>
+
     <Route path="menu" handler={MenuHome}/>
     <Route path="salad" handler={CustomSaladHome}/>
 

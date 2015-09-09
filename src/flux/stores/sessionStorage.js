@@ -21,6 +21,21 @@ class SessionStorage extends Marty.SessionStorageStateSource {
   cancelOrder() {
     this.saveOrder(null);
   }
+
+  setAuthUser(user) {
+      this.set("authUser", JSON.stringify(user));
+  }
+
+  getAuthUser() {
+    var user = this.get("authUser");
+    if(user==null) return undefined;
+
+    return JSON.parse(user);
+  }
+
+  logoutAuthUser() {
+    this.setAuthUser(null);
+  }
 }
 
 module.exports = SessionStorage;

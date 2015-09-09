@@ -35,7 +35,9 @@
     "express": "~4.13.3",
     "body-parser": "~1.13.3",
     "errorhandler": "~1.4.2",
-    "method-override": "~2.3.5"
+    "method-override": "~2.3.5",
+    "react-ladda": "~3.0.0",
+    "sha1": "~1.1.1"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~0.6.0",
