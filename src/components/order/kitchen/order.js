@@ -17,7 +17,10 @@ var Panel = RB.Panel;
 var Button = RB.Button;
 var ButtonGroup = RB.ButtonGroup;
 
+var Icon = require("react-fa");
+
 var OrderItem = require("../orderItem");
+var ItemsBar = require("./itemsBar");
 
 class Order extends React.Component {
   render() {
@@ -25,9 +28,16 @@ class Order extends React.Component {
     var created = moment.utc(order.created).local().format("HH:mm Do MMMM YYYY");
     var duration = moment.duration(moment.utc(order.created).local() - moment()).humanize(true);
     var targetTime = order.targetTime!=null ? "at " + moment.utc(order.targetTime, "HH:mm").local().format("HH:mm") : "ASAP";
+    var items = _.sortBy(order.orderItems, (item) => {
+      if(item.type === "CUSTOMSALAD") return 0;
+      if(item.type === "MENU") return item.menu.number;
+
+      return 100;
+    });
+    var containsSalad = _.any(items, {type: "CUSTOMSALAD"});
     return (
       <span>
-        <Panel bsStyle={this.getPanelStyle()} header={
+        <Panel bsStyle={this.getPanelStyle()} collapsible={true} defaultExpanded={false} header={
           <Grid className="autowidth">
             <Col xs={2}>
               <Badge>{order.id}</Badge>
@@ -36,12 +46,22 @@ class Order extends React.Component {
             <Col xs={3}><strong>{order.totalPrice}Kč</strong>{this.getTakeawayText()}</Col>
           </Grid>
         } footer={
-          <span>
-            {this.renderActionButtons()}
-            <span className="pull-right">
-              <Button bsStyle="danger" onClick={this.cancelOrder.bind(this)}>Cancel</Button>
-            </span>
-          </span>
+          <Grid fluid className="grid-compact">
+            <Col xs={order.status == "NEW" ? 2 : 3}>
+              {this.renderActionButtons()}
+            </Col>
+            <Col xs={order.status == "NEW" ? 8 : 7} className="itembar-col">
+              <ItemsBar items={order.orderItems}/>
+            </Col>
+            <Col xs={1} className="itembar-col" style={{textAlign: "center"}}>
+              {containsSalad ? (<Icon name="cutlery" size="lg"/>) : ""}
+            </Col>
+            <Col xs={1}>
+              <span className="pull-right">
+                <Button bsStyle="danger" onClick={this.cancelOrder.bind(this)}>Cancel</Button>
+              </span>
+            </Col>
+          </Grid>
         }>
           <Grid className="autowidth">
             <Row>
@@ -51,7 +71,7 @@ class Order extends React.Component {
             <Row className="items-row">
               <Col xs={12}>
                 <ListGroup>
-                  {_.map(order.orderItems, (item) => (<ListItem><OrderItem item={item} readOnly={true}/></ListItem>))}
+                  {_.map(items, (item) => (<ListItem><OrderItem item={item} readOnly={true}/></ListItem>))}
                 </ListGroup>
               </Col>
             </Row>
@@ -70,9 +90,9 @@ class Order extends React.Component {
     var backaction;
     var backstyle;
     if(status === "NEW") {
-      nexttext = "Start working on it";
+      nexttext = "Order is finished";
       nextstyle = "primary";
-      nextaction = this.changeStatus("PENDING");
+      nextaction = this.changeStatus("FINISHED");
     } else if (status === "PENDING") {
       nexttext = "Finish it";
       nextstyle = "success";
@@ -84,9 +104,9 @@ class Order extends React.Component {
       nexttext = "Order is done";
       nextstyle = "default";
       nextaction = this.changeStatus("DONE");
-      backtext = "Set to PENDING";
+      backtext = "Back to NEW";
       backstyle = "primary";
-      backaction = this.changeStatus("PENDING");
+      backaction = this.changeStatus("NEW");
     }
     var buttons = [<Button bsStyle={nextstyle} onClick={nextaction}>{nexttext}</Button>];
     if(backtext != null) {

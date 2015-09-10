@@ -16,6 +16,7 @@ class NavbarComponent extends React.Component {
     var numItemsInCart = this.props.currentOrder.orderItems.length;
     var cartBadge = numItemsInCart > 0 ? (<Badge>{numItemsInCart}</Badge>) : "";
     var management = this.props.authUser.type === "admin" ? (<NavItem href="#/management">Management</NavItem>) : "";
+    var kitchenView = this.props.authUser.type === "admin" ? (<NavItem href="#/orders/list">Kitchen View</NavItem>) : "";
 
     return (
       <Navbar brand={<a href="#/">Foodoo</a>} >
@@ -23,6 +24,7 @@ class NavbarComponent extends React.Component {
           <NavItem href="#/menu">Menus</NavItem>
           <NavItem href="#/salad">Salads</NavItem>
           {management}
+          {kitchenView}
         </Nav>
         <Nav navbar right>
           <LoginIndicator />

@@ -13,17 +13,23 @@ var ListItem = RB.ListGroupItem;
 var Order = require("./order");
 
 class Home extends React.Component {
+  componentWillMount() {
+    if(this.props.authUser.type !== "admin") {
+      window.location.hash = "#/login";
+    }
+  }
+
   render() {
     var newOrders = _.filter(this.props.orders, order => order.status==="NEW");
-    var pendingOrders = _.filter(this.props.orders ,order => order.status === "PENDING");
+    //var pendingOrders = _.filter(this.props.orders ,order => order.status === "PENDING");
     var finishedOrders = _.filter(this.props.orders ,order => order.status === "FINISHED");
 
     var newOrdersList = _.isEmpty(newOrders) ? this.renderNoOrders() : _.map(newOrders, (order) => (
         <Order order={order}/>
     ));
-    var pendingOrdersList = _.isEmpty(pendingOrders) ? this.renderNoOrders() :_.map(pendingOrders, (order) => (
-        <Order order={order}/>
-    ));
+    // var pendingOrdersList = _.isEmpty(pendingOrders) ? this.renderNoOrders() :_.map(pendingOrders, (order) => (
+    //     <Order order={order}/>
+    // ));
     var finishedOrdersList = _.isEmpty(finishedOrders) ? this.renderNoOrders() :_.map(finishedOrders, (order) => (
       <Order order={order}/>
     ));
@@ -31,9 +37,6 @@ class Home extends React.Component {
     return (
       <span>
         <div className="page-header"><h1>Orders</h1></div>
-        <h3>Pending orders</h3>
-        { pendingOrdersList }
-
         <h3>New orders</h3>
         { newOrdersList }
 
@@ -49,10 +52,13 @@ class Home extends React.Component {
 }
 
 module.exports = Marty.createContainer(Home, {
-    listenTo: ["ordersStore"],
+    listenTo: ["ordersStore", "authUserStore"],
     fetch: {
       orders: function () {
-        return this.app.ordersStore.getToBeDoneOrders(10000);
+        return this.app.ordersStore.getToBeDoneOrders(300000);
+      },
+      authUser: function() {
+        return this.app.authUserStore.getAuthUser();
       }
     },
     pending: () => (<Icon name="spinner" spin={true}/>),
