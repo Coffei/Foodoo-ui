@@ -1,6 +1,7 @@
 var React = require("react");
 var Marty = require("marty");
 var _ = require("lodash");
+var moment = require("moment");
 
 var Icon = require("react-fa");
 var RB = require("react-bootstrap");
@@ -13,13 +14,33 @@ var Menu = require("./menu.js");
 
 
 var DateHelper = require("../../helpers/dateHelper");
+const fmt = "HH:mm";
 
 class MenuList extends React.Component {
+
+  canOrder() {
+    return this.props.menuHours != null && moment.utc(this.props.menuHours.endTime, fmt).local().isAfter(moment());
+  }
+
   render() {
-    var days = DateHelper.getDatesInRange(this.props.date.clone().startOf("isoweek"), this.props.date.clone().endOf("isoweek"), "day");
+    var days = DateHelper.getDatesInRange(this.props.start, this.props.end, "day");
     var menusGrouped = _.mapValues(_.groupBy(this.props.menus || [], "date"), (menus) => _.sortBy(menus, "number"));
+    if(this.props.hideIfEmpty && _.isEmpty(this.props.menus)) {
+      console.log("menu is empty, not displaying");
+      return <span></span>;
+    }
+    if(this.props.hideIfCannotOrder && !this.canOrder()) {
+      console.log("cannot order menu, not displaying");
+      return <span></span>;
+    }
+
+    var label = _.isEmpty(this.props.label) ? "" : (
+      <h2>{this.props.label}</h2>
+    );
+
     return (
       <span>
+        {label}
         { _.map(days, (day) => (
           <span>
             <h3>{ day.format("dddd, Do MMMM YYYY") }</h3>
@@ -47,12 +68,15 @@ class MenuList extends React.Component {
 }
 
 module.exports = Marty.createContainer(MenuList, {
-  listenTo: ["menuStore"],
+  listenTo: ["menuStore", "hoursStore"],
   fetch: {
     menus: function () {
-      var start = this.props.date.clone().startOf("isoweek");
-      var end = this.props.date.clone().endOf("isoweek");
+      var start = this.props.start;
+      var end = this.props.end;
       return this.app.menuStore.getMenusInRange(start, end);
+    },
+    menuHours: function() {
+      return this.app.hoursStore.getHours("MENU");
     }
   },
   pending: () => (<Icon name="spinner" spin={true} size="2x"/>),

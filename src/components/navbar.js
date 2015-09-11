@@ -1,5 +1,6 @@
 var React = require("react");
 var Marty = require("marty");
+var Settings = require("../flux/settings/settings");
 
 // Bootstraps
 var Icon = require("react-fa");
@@ -12,6 +13,11 @@ var Badge = RB.Badge;
 var LoginIndicator = require("./auth/loginIndicator");
 
 class NavbarComponent extends React.Component {
+
+  getName() {
+    return Settings.siteName || "Foodoo";
+  }
+
   render() {
     var numItemsInCart = this.props.currentOrder.orderItems.length;
     var cartBadge = numItemsInCart > 0 ? (<Badge>{numItemsInCart}</Badge>) : "";
@@ -19,7 +25,7 @@ class NavbarComponent extends React.Component {
     var kitchenView = this.props.authUser.type === "admin" ? (<NavItem href="#/orders/list">Kitchen View</NavItem>) : "";
 
     return (
-      <Navbar brand={<a href="#/">Foodoo</a>} >
+      <Navbar brand={<a href="#/">{this.getName()}</a>} >
         <Nav>
           <NavItem href="#/menu">Menus</NavItem>
           <NavItem href="#/salad">Salads</NavItem>

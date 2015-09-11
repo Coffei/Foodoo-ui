@@ -18,10 +18,12 @@ class MenuHome extends React.Component {
   }
 
   render() {
+    var start = this.state.date.clone().startOf("isoweek");
+    var end = this.state.date.clone().endOf("isoweek");
     return (
       <div>
         <div className="page-header"><h1>Weekly menu</h1></div>
-        <MenuList date={this.state.date}/>
+        <MenuList start={start} end={end}/>
         <Pager>
           <PageItem previous onClick={this.moveForward(-1).bind(this)}><Icon name="backward" /> Previous week</PageItem>
           <PageItem next onClick={this.moveForward(1).bind(this)}>Next week <Icon name="forward" /></PageItem>

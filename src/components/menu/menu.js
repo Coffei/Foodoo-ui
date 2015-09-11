@@ -65,7 +65,6 @@ class Menu extends React.Component {
   }
 
   getOverlayTooltip() {
-    console.log(this);
     if (this.canOrder()) {
       return (
         <Tooltip><strong>Order the menu!</strong></Tooltip>
