@@ -4,6 +4,7 @@ var moment = require("moment");
 
 // Components
 var MenuList = require("./menu/menuList");
+var Announcement = require("./announcement");
 
 class Home extends React.Component {
 
@@ -26,6 +27,8 @@ class Home extends React.Component {
           <h1>{this.getName()}</h1>
         </div>
         <MenuList start={this.getStart()} end={this.getEnd()} hideIfEmpty={true} hideIfCannotOrder={true} label="Menu for today:"/>
+        <br/>
+        <Announcement />
       </span>
     );
   }

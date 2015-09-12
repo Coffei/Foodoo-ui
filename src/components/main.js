@@ -20,6 +20,7 @@ var MenuManagement = require("./management/menu/menuManagement");
 var IngredientManagement = require("./management/ingredients/ingredientManagement");
 var HoursManagement = require("./management/hours/hoursManagement");
 var ConstantsManagement = require("./management/constants/constantsManagement");
+var MessageManagement = require("./management/message/messageManagement");
 var EmptyManagement = require("./management/emptyManagement");
 
 var MenuHome = require("./menu/menuHome");
@@ -55,6 +56,7 @@ routes = (
       <Route path="ingredients" handler={IngredientManagement}/>
       <Route path="hours" handler={HoursManagement}/>
       <Route path="constants" handler={ConstantsManagement}/>
+      <Route path="announcement" handler={MessageManagement}/>
     </Route>
   </Route>
 );

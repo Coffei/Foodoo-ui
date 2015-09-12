@@ -28,6 +28,7 @@ class Management extends React.Component {
               <Button href="#/management/ingredients">Ingredients</Button>
               <Button href="#/management/hours">Business Hours</Button>
               <Button href="#/management/constants">Price Constants</Button>
+              <Button href="#/management/announcement">Announcement</Button>
             </ButtonGroup>
           </Col>
           <Col xs={12} md={10}>
