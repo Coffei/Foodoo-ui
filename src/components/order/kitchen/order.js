@@ -16,6 +16,7 @@ var ListItem = RB.ListGroupItem;
 var Panel = RB.Panel;
 var Button = RB.Button;
 var ButtonGroup = RB.ButtonGroup;
+var Label = RB.Label;
 
 var Icon = require("react-fa");
 
@@ -26,6 +27,7 @@ class Order extends React.Component {
   render() {
     var order = this.props.order;
     var created = moment.utc(order.created).local().format("HH:mm Do MMMM YYYY");
+    var createdShort = moment.utc(order.created).local().format("HH:mm Do MMM");
     var duration = moment.duration(moment.utc(order.created).local() - moment()).humanize(true);
     var targetTime = order.targetTime!=null ? "at " + moment.utc(order.targetTime, "HH:mm").local().format("HH:mm") : "ASAP";
     var items = _.sortBy(order.orderItems, (item) => {
@@ -39,11 +41,13 @@ class Order extends React.Component {
       <span>
         <Panel bsStyle={this.getPanelStyle()} collapsible={true} defaultExpanded={false} header={
           <Grid className="autowidth">
-            <Col xs={2}>
+            <Col xs={1}>
               <Badge>{order.id}</Badge>
             </Col>
-            <Col xs={7}><strong>{order.customerName}</strong>{this.getCustomerEmail()}</Col>
-            <Col xs={3}><strong>{order.totalPrice}Kč</strong>{this.getTakeawayText()}</Col>
+            <Col xs={5}><strong>{order.customerName}</strong>{this.getCustomerEmail()}</Col>
+            <Col xs={2}><Label>Created {createdShort}</Label></Col>
+            <Col xs={2}><Label bsStyle="primary">Pickup {targetTime}</Label></Col>
+            <Col xs={2}><strong>{order.totalPrice}Kč</strong>{this.getTakeawayText()}</Col>
           </Grid>
         } footer={
           <Grid fluid className="grid-compact">
@@ -159,7 +163,7 @@ class Order extends React.Component {
   }
 
   getTakeawayText() {
-    if(this.props.order.takeaway) return " (incl. takeaway)";
+    if(this.props.order.takeaway) return " with takeaway";
   }
 }
 
