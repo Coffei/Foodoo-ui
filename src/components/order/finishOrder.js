@@ -6,6 +6,7 @@ var Marty = require("marty");
 var _ = require("lodash");
 
 var Toastr = require("toastr");
+var LaddaButton = require("react-ladda");
 var Icon = require("react-fa");
 var RB = require("react-bootstrap");
 var Alert = RB.Alert;
@@ -20,7 +21,8 @@ class FinishOrder extends React.Component {
 
     this.state = {
       name: "",
-      email: ""
+      email: "",
+      isSaving: false
     };
   }
 
@@ -60,8 +62,10 @@ class FinishOrder extends React.Component {
         </div>
         <span className="pull-right separated-buttons">
           <Button href="#/checkout">Go Back</Button>
-          <Button bsStyle="primary" onClick={this.submitOrder.bind(this)}><Icon name="check"/> Order!</Button>
-        </span>
+          <LaddaButton loading={this.state.isSaving} buttonStyle="expand-right" onClick={this.submitOrder.bind(this)} className="btn btn-primary">
+              <Icon name="check"/> Order!
+          </LaddaButton>
+          </span>
       </span>
     );
   }
@@ -113,7 +117,8 @@ class FinishOrder extends React.Component {
   }
 
   submitOrder() {
-    if(confirm("Are you sure?")) {
+    if(!this.state.isSaving && confirm("Are you sure?")) {
+      this.setState({isSaving: true});
       var order = _.clone(this.props.order);
       order.customerName = this.state.name;
       order.customeremail = this.state.email;
@@ -122,6 +127,7 @@ class FinishOrder extends React.Component {
       this.app.orderActionCreator.submitOrder(order).
         then(() => {
           Toastr.info("Order created!");
+          this.setState({isSaving: false});
         }).
         catch((res) => {
           var errors = res.body;
@@ -129,7 +135,7 @@ class FinishOrder extends React.Component {
           if (_.contains(errorPaths, "customerName")) Toastr.error("Fill in your name.", "Invalid order");
           if (_.contains(errorPaths, "customeremail")) Toastr.error("Fix the email and try again.", "Invalid email");
 
-
+          this.setState({isSaving: false});
           Toastr.error("This order cannot be submitted at the moment.");
         });
     }
