@@ -28,7 +28,8 @@ class ItemsBar extends React.Component {
       <div>
         <ProgressBar max={max}>
           {_.map(_.keys(menusCount), (menuNumber) => (
-            <ProgressBar max={max} now={menusCount[menuNumber]} label={<span><Badge>{menuNumber}</Badge> <b>{menusCount[menuNumber]} times</b></span>} bsStyle={colors[menuNumber]} />
+            <ProgressBar max={max} now={menusCount[menuNumber]} label={<span><Badge>{menuNumber}</Badge> <b> x{menusCount[menuNumber]}</b></span>}
+              className={"items-progress-menu-" + menuNumber} />
           ))}
         </ProgressBar>
       </div>
